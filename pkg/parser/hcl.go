@@ -1,3 +1,4 @@
+// Package parser provides functionality to parse Terraform files and find refactoring blocks.
 package parser
 
 import (
@@ -16,11 +17,15 @@ type BlockPosition struct {
 
 // FindRefactoringBlocks finds all uncommented moved/import/removed blocks in a Terraform file
 func FindRefactoringBlocks(filepath string) ([]BlockPosition, error) {
-	file, err := os.Open(filepath)
+	file, err := os.Open(filepath) //nolint:gosec // filepath is a required parameter
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file %s: %w", filepath, err)
 	}
-	defer file.Close()
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil && err == nil {
+			err = fmt.Errorf("failed to close file %s: %w", filepath, closeErr)
+		}
+	}()
 
 	var blocks []BlockPosition
 	scanner := bufio.NewScanner(file)
@@ -39,19 +44,20 @@ func FindRefactoringBlocks(filepath string) ([]BlockPosition, error) {
 
 		// Check for block start (moved, import, or removed)
 		if currentBlock == nil {
-			if strings.HasPrefix(line, "moved {") {
+			switch {
+			case strings.HasPrefix(line, "moved {"):
 				currentBlock = &BlockPosition{
 					StartLine: lineNum,
 					BlockType: "moved",
 				}
 				braceDepth = 1
-			} else if strings.HasPrefix(line, "import {") {
+			case strings.HasPrefix(line, "import {"):
 				currentBlock = &BlockPosition{
 					StartLine: lineNum,
 					BlockType: "import",
 				}
 				braceDepth = 1
-			} else if strings.HasPrefix(line, "removed {") {
+			case strings.HasPrefix(line, "removed {"):
 				currentBlock = &BlockPosition{
 					StartLine: lineNum,
 					BlockType: "removed",

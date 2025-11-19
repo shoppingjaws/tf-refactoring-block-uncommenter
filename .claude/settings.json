@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(test:*)",
-      "Bash(docker run --rm -v .:/app -w /app golang:1.25.4:*)"
+      "Bash(docker run --rm -v .:/app -w /app golang:1.25.4:*)",
+      "Bash(golangci-lint run --fix:*)"
     ],
     "deny": [],
     "ask": []

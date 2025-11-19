@@ -1,3 +1,5 @@
+// Terraform Refactoring Block Uncommenter automatically comments out executed
+// Terraform refactoring blocks (moved, import, removed) in .tf files.
 package main
 
 import (

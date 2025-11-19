@@ -1,3 +1,4 @@
+// Package commenter provides functionality to comment out Terraform refactoring blocks.
 package commenter
 
 import (
@@ -16,7 +17,7 @@ func CommentOutBlocks(filepath string, blocks []parser.BlockPosition) error {
 	}
 
 	// Read all lines from the file
-	file, err := os.Open(filepath)
+	file, err := os.Open(filepath) //nolint:gosec // filepath is a required parameter
 	if err != nil {
 		return fmt.Errorf("failed to open file %s: %w", filepath, err)
 	}
@@ -26,7 +27,9 @@ func CommentOutBlocks(filepath string, blocks []parser.BlockPosition) error {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-	file.Close()
+	if err := file.Close(); err != nil {
+		return fmt.Errorf("failed to close file %s: %w", filepath, err)
+	}
 
 	if err := scanner.Err(); err != nil {
 		return fmt.Errorf("error reading file %s: %w", filepath, err)
@@ -47,18 +50,26 @@ func CommentOutBlocks(filepath string, blocks []parser.BlockPosition) error {
 	}
 
 	// Write back to the file
-	output, err := os.Create(filepath)
+	output, err := os.Create(filepath) //nolint:gosec // filepath is a required parameter
 	if err != nil {
 		return fmt.Errorf("failed to create file %s: %w", filepath, err)
 	}
-	defer output.Close()
+	defer func() {
+		if closeErr := output.Close(); closeErr != nil && err == nil {
+			err = fmt.Errorf("failed to close file %s: %w", filepath, closeErr)
+		}
+	}()
 
 	writer := bufio.NewWriter(output)
 	for i, line := range lines {
 		if i > 0 {
-			writer.WriteString("\n")
+			if _, err := writer.WriteString("\n"); err != nil {
+				return fmt.Errorf("failed to write newline to file %s: %w", filepath, err)
+			}
 		}
-		writer.WriteString(line)
+		if _, err := writer.WriteString(line); err != nil {
+			return fmt.Errorf("failed to write line to file %s: %w", filepath, err)
+		}
 	}
 
 	if err := writer.Flush(); err != nil {

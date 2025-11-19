@@ -128,7 +128,7 @@ resource "aws_instance" "example" {
 			// Create temporary file
 			tmpDir := t.TempDir()
 			tmpFile := filepath.Join(tmpDir, "test.tf")
-			if err := os.WriteFile(tmpFile, []byte(tt.content), 0644); err != nil {
+			if err := os.WriteFile(tmpFile, []byte(tt.content), 0600); err != nil {
 				t.Fatalf("failed to create temp file: %v", err)
 			}
 
@@ -138,7 +138,7 @@ resource "aws_instance" "example" {
 			}
 
 			// Read the result
-			result, err := os.ReadFile(tmpFile)
+			result, err := os.ReadFile(tmpFile) //nolint:gosec // Test file, safe to read
 			if err != nil {
 				t.Fatalf("failed to read result file: %v", err)
 			}
@@ -167,7 +167,7 @@ func TestCommentOutBlocksFileOperations(t *testing.T) {
 	t.Run("empty file", func(t *testing.T) {
 		tmpDir := t.TempDir()
 		tmpFile := filepath.Join(tmpDir, "empty.tf")
-		if err := os.WriteFile(tmpFile, []byte(""), 0644); err != nil {
+		if err := os.WriteFile(tmpFile, []byte(""), 0600); err != nil {
 			t.Fatalf("failed to create temp file: %v", err)
 		}
 

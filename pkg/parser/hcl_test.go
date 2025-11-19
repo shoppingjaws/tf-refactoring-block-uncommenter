@@ -121,7 +121,7 @@ variable "environment" {
 			// Create temporary file
 			tmpDir := t.TempDir()
 			tmpFile := filepath.Join(tmpDir, "test.tf")
-			if err := os.WriteFile(tmpFile, []byte(tt.content), 0644); err != nil {
+			if err := os.WriteFile(tmpFile, []byte(tt.content), 0600); err != nil {
 				t.Fatalf("failed to create temp file: %v", err)
 			}
 
