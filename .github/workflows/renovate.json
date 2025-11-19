@@ -7,7 +7,7 @@
     ":semanticCommitTypeAll(chore)"
   ],
   "minimumReleaseAge": "14 days",
-  "labels": ["dependencies"],
+  "labels": ["dependencies:renovate"],
   "timezone": "Asia/Tokyo",
   "schedule": ["at any time"],
   "prConcurrentLimit": 5,
@@ -42,5 +42,6 @@
     "enabled": true,
     "labels": ["security"],
     "assignees": ["shoppingjaws"]
-  }
+  },
+  "pinDigests": true
 }
