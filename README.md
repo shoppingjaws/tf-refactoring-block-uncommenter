@@ -85,12 +85,17 @@ Customize the action with inputs:
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     branch-name: 'auto/comment-tf-blocks'
+    base-branch: 'main'
+
+    # Customize PR text
     pr-title: 'chore(terraform): Comment out executed refactoring blocks'
     pr-body: |
       This PR comments out Terraform refactoring blocks that have been executed.
 
       Please review and merge.
-    base-branch: 'main'
+
+    # Optional: Request reviewers
+    reviewers: 'user1,user2'
 ```
 
 ## 🔧 Inputs
@@ -102,6 +107,7 @@ Customize the action with inputs:
 | `pr-title` | Title for the pull request | No | `chore: Comment out executed Terraform refactoring blocks` |
 | `pr-body` | Body for the pull request | No | Auto-generated message |
 | `base-branch` | Base branch for the PR | No | Repository default branch |
+| `reviewers` | Comma-separated list of GitHub usernames to request reviews | No | `` (empty) |
 
 ## 📋 Example Terraform Blocks
 
