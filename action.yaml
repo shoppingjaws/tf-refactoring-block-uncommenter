@@ -94,10 +94,12 @@ runs:
           # Close existing PR
           gh pr close "$EXISTING_PR" --comment "Closing to recreate with latest changes from ${{ inputs.base-branch }}"
 
-          # Delete remote branch (ignore errors if branch doesn't exist)
-          git push origin --delete "${{ inputs.branch-name }}" 2>/dev/null || true
-
-          echo "✅ Closed PR #$EXISTING_PR and deleted branch"
+          # Delete remote branch (may already be deleted if auto-delete is enabled)
+          if git push origin --delete "${{ inputs.branch-name }}" 2>&1; then
+            echo "✅ Closed PR #$EXISTING_PR and deleted branch"
+          else
+            echo "✅ Closed PR #$EXISTING_PR (branch already deleted or delete failed, continuing anyway)"
+          fi
         fi
 
         # Create new branch and commit
