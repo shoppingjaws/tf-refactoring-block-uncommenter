@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/internal/parser"
+	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/pkg/parser"
 )
 
 // CommentOutBlocks comments out the specified blocks in a file

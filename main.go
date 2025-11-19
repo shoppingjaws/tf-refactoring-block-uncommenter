@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/internal/commenter"
-	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/internal/git"
-	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/internal/parser"
+	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/pkg/commenter"
+	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/pkg/git"
+	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/pkg/parser"
 )
 
 func main() {

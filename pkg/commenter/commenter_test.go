@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/internal/parser"
+	"github.com/shoppingjaws/tf-refactoring-block-uncommenter/pkg/parser"
 )
 
 func TestCommentOutBlocks(t *testing.T) {
