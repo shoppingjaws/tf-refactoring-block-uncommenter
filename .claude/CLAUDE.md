@@ -6,7 +6,7 @@
 
 **Terraform Refactoring Block Uncommenter** は、Terraform のリファクタリングブロック（`moved`, `import`, `removed`）を実行後に自動的にコメントアウトする GitHub Actions composite action です。
 
-- **言語**: Go 1.21+
+- **言語**: Go 1.25.4
 - **配布形式**: GitHub Actions composite action
 - **リポジトリ**: https://github.com/shoppingjaws/tf-refactoring-block-uncommenter
 
@@ -64,6 +64,17 @@ docker run --rm -v .:/app -w /app golang:1.25.4 go build -o /tmp/uncommenter mai
 - 常に全 `.tf` ファイルをスキャン
 - GitHub Actions 環境でも動作することを確認
 
+### 5. PR管理戦略
+
+- **重要**: 既存のPRが存在する場合、force pushではなくPRをcloseして再作成
+- これにより、ベースブランチの最新変更を確実に反映
+- 古いPRは自動的にクローズされ、コメントが追加される
+
+### 6. 終了コード
+
+- **`0`**: ブロックをコメントアウトした（PRを作成）
+- **`1`**: コメントアウトするブロックが見つからなかった（PR作成スキップ）
+
 ## 📦 GitHub Actions 固有の注意点
 
 ### Composite Action として
@@ -81,6 +92,15 @@ uses: shoppingjaws/tf-refactoring-block-uncommenter@main
 # 安定版（将来リリース予定）
 uses: shoppingjaws/tf-refactoring-block-uncommenter@v1
 ```
+
+### 入力パラメータ
+
+- **`reviewers`**: PR作成時にレビュワーを自動指定（カンマ区切りのGitHubユーザー名）
+  ```yaml
+  - uses: shoppingjaws/tf-refactoring-block-uncommenter@main
+    with:
+      reviewers: 'user1,user2'
+  ```
 
 ## 📝 コミット規約
 
