@@ -1,5 +1,5 @@
 # Test file for verifying the uncommenter action
-# Testing: trigger action to comment out blocks below
+# Testing PR creation with correct permissions
 
 resource "aws_instance" "example" {
   ami           = "ami-12345678"
