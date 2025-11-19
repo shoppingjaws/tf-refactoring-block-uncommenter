@@ -25,4 +25,4 @@ jobs:
           pr-title: 'chore: Comment out executed Terraform refactoring blocks'
           base-branch: ${{ github.event.repository.default_branch }}
           # Optional: Specify reviewers (comma-separated GitHub usernames)
-          # reviewers: 'octocat,github-user'
+          reviewers: 'shoppingjaws'
