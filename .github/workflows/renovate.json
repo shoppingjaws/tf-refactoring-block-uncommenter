@@ -38,6 +38,7 @@
       "platformAutomerge": true
     }
   ],
+  "dependencyDashboardApproval": true,
   "vulnerabilityAlerts": {
     "enabled": true,
     "labels": ["security"],
