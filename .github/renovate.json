@@ -6,9 +6,10 @@
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)"
   ],
+  "minimumReleaseAge": "14 days",
   "labels": ["dependencies"],
   "timezone": "Asia/Tokyo",
-  "schedule": ["before 3am on Monday"],
+  "schedule": ["at any time"],
   "prConcurrentLimit": 5,
   "prHourlyLimit": 0,
   "assignees": ["shoppingjaws"],
@@ -27,13 +28,6 @@
       "groupName": "Go version",
       "automerge": false,
       "schedule": ["before 3am on the first day of the month"]
-    },
-    {
-      "description": "Group Docker image updates",
-      "matchDatasources": ["docker"],
-      "groupName": "Docker images",
-      "automerge": false,
-      "schedule": ["before 3am on Monday"]
     },
     {
       "description": "Auto-merge patch updates for GitHub Actions",
