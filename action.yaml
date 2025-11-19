@@ -85,10 +85,26 @@ runs:
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
 
+        # Check if PR already exists for this branch
+        EXISTING_PR=$(gh pr list --head "${{ inputs.branch-name }}" --json number --jq '.[0].number' 2>/dev/null || echo "")
+
+        if [ -n "$EXISTING_PR" ]; then
+          echo "ℹ️ Existing PR #$EXISTING_PR found. Closing and recreating..."
+
+          # Close existing PR
+          gh pr close "$EXISTING_PR" --comment "Closing to recreate with latest changes from ${{ inputs.base-branch }}"
+
+          # Delete remote branch (ignore errors if branch doesn't exist)
+          git push origin --delete "${{ inputs.branch-name }}" 2>/dev/null || true
+
+          echo "✅ Closed PR #$EXISTING_PR and deleted branch"
+        fi
+
+        # Create new branch and commit
         git checkout -b "${{ inputs.branch-name }}"
         git add *.tf
         git commit -m "${{ inputs.pr-title }}"
-        git push origin "${{ inputs.branch-name }}" --force
+        git push origin "${{ inputs.branch-name }}"
 
         # Create PR using gh CLI
         REVIEWER_ARGS=""
@@ -101,5 +117,6 @@ runs:
           --body "${{ inputs.pr-body }}" \
           --base "${{ inputs.base-branch }}" \
           --head "${{ inputs.branch-name }}" \
-          $REVIEWER_ARGS \
-          || echo "PR may already exist"
+          $REVIEWER_ARGS
+
+        echo "✅ Pull request created successfully"
