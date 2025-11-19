@@ -7,22 +7,22 @@ resource "aws_instance" "example" {
 }
 
 # These blocks should be automatically commented out by the action
-moved {
-  from = aws_instance.old_name
-  to   = aws_instance.example
-}
+# moved {
+  # from = aws_instance.old_name
+  # to   = aws_instance.example
+# }
 
-import {
-  to = aws_s3_bucket.test_bucket
-  id = "my-test-bucket"
-}
+# import {
+  # to = aws_s3_bucket.test_bucket
+  # id = "my-test-bucket"
+# }
 
-removed {
-  from = aws_security_group.deprecated
-  lifecycle {
-    destroy = false
-  }
-}
+# removed {
+  # from = aws_security_group.deprecated
+  # lifecycle {
+    # destroy = false
+  # }
+# }
 
 resource "aws_s3_bucket" "test_bucket" {
   bucket = "my-test-bucket"
