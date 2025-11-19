@@ -17,21 +17,7 @@ func main() {
 }
 
 func run() error {
-	fmt.Println("🔍 Checking for Terraform file changes...")
-
-	// Check if there are any .tf file changes
-	hasChanges, err := git.HasTerraformChanges()
-	if err != nil {
-		return fmt.Errorf("failed to check terraform changes: %w", err)
-	}
-
-	if !hasChanges {
-		fmt.Println("ℹ️  No Terraform file changes detected. Skipping.")
-		os.Exit(1) // Exit with non-zero to indicate no changes
-	}
-
-	fmt.Println("✅ Terraform file changes detected.")
-	fmt.Println("📋 Finding all Terraform files...")
+	fmt.Println("🔍 Scanning for Terraform files...")
 
 	// Get all .tf files
 	files, err := git.GetTerraformFiles()
