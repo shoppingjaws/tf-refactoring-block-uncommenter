@@ -35,6 +35,10 @@ inputs:
     description: 'Base branch for the PR'
     required: false
     default: ${{ github.event.repository.default_branch }}
+  reviewers:
+    description: 'Comma-separated list of GitHub usernames to request reviews from'
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
@@ -87,9 +91,15 @@ runs:
         git push origin "${{ inputs.branch-name }}" --force
 
         # Create PR using gh CLI
+        REVIEWER_ARGS=""
+        if [ -n "${{ inputs.reviewers }}" ]; then
+          REVIEWER_ARGS="--reviewer ${{ inputs.reviewers }}"
+        fi
+
         gh pr create \
           --title "${{ inputs.pr-title }}" \
           --body "${{ inputs.pr-body }}" \
           --base "${{ inputs.base-branch }}" \
           --head "${{ inputs.branch-name }}" \
+          $REVIEWER_ARGS \
           || echo "PR may already exist"
