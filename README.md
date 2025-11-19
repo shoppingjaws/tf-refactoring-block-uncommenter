@@ -60,13 +60,15 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # Note: Enable "Allow GitHub Actions to create and approve pull requests"
+  #       in Settings > Actions > General > Workflow permissions
 
 jobs:
   comment-out-blocks:
     runs-on: ubuntu-latest
     steps:
       # Use @main for latest features (recommended for development)
-      - uses: shoppingjaws/tf-refactoring-block-uncommenter@main
+      - uses: shoppingjaws/tf-refactoring-block-uncommenter@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -165,6 +167,9 @@ removed {
 - GitHub Actions runner (ubuntu-latest recommended)
 - Go 1.21+ (automatically set up by the action)
 - `contents: write` and `pull-requests: write` permissions
+- **GitHub Actions Settings**: Enable "Allow GitHub Actions to create and approve pull requests" in your repository settings
+  - Navigate to: `Settings` > `Actions` > `General` > `Workflow permissions`
+  - Check: ✅ "Allow GitHub Actions to create and approve pull requests"
 
 ## 🤝 Contributing
 
